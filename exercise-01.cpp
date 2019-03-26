@@ -24,28 +24,44 @@ void createNode(Pembalap* &p,  int nomor, char nama)
 
     cout<<"Nomor\t\t\t: "; cin>>p->nomor;
     cout<<"Nama\t\t\t: "; cin.ignore(); cin.getline(p->nama, 40);
-    cout<<"Waktu\t\t\t: "; cin>>p->gaji;
+    cout<<"Waktu\t\t\t: "; cin>>p->waktu;
     p->next=NULL;
     p->prev=NULL;
 }
 void insertFirst(Pembalap* &head, Pembalap* node)
 {
-    if (head==NULL) // kasus kosong
-    {
+    if (head==NULL){
         head=node;
     }
-    else            // kasus ada isi
-    {
-        head->next=head;
-        head->prev=node;
+    else {
+        node->next=head;
         head=node;
+    }
+}
+
+void search(Pembalap* &firstNode, int nomorKey, Pembalap* &pToUpdate)
+{
+    pToUpdate=firstNode;
+    while(pToUpdate->nomor!=nomorKey)
+    {
+        pToUpdate=pToUpdate->next;
     }
 }
 
 void insertBefore(Pembalap* &head, int nomorKey, Pembalap* node)
 {
     // insert before a node
-
+    Pembalap* searching;
+    search(head,nomorKey,searching);
+    if (head==NULL){
+        head=node;
+    }
+    else {
+        node->next=searching;
+        node->prev=searching->prev;
+        searching->prev->next=node;
+        searching->prev=node;
+    }
 }
 
 void deleteByKey(Pembalap* &head, int nomorKey, Pembalap* &deletedNode)
@@ -54,34 +70,23 @@ void deleteByKey(Pembalap* &head, int nomorKey, Pembalap* &deletedNode)
 
 }
 
-void search(Pembalap* &firstNode, int nomorKey, Pembalap* &pToUpdate)
-{
-
-}
-
 void traversal(Pembalap* head)
 {
-    pointer pBantu;
-    pBantu=First;
-
-    if(First==NULL)
+    Pembalap* help;
+    if (head==NULL)
     {
-        cout<<"List kosong" <<endl;
+        cout<<"List Kosong" <<endl;
     }
     else
     {
-        int i=1;
-
-        pBantu=First;
-        cout<<"No\t Nama\t\t\t Bidang\t\t Gaji" <<endl;
-        cout<<"=======================================================" <<endl;
-        do
-        {
-            cout<<i <<"\t"<<pBantu->nama <<"\t\t" <<pBantu->bidang <<"\t\t" <<pBantu->gaji <<endl;
-            pBantu=pBantu->next;
-            i++;
+        help=head;
+        while(help!=NULL){
+            cout<<"Nomor: "<<help->nomor<<endl;
+            cout<<"Nama: "<<help->nama<<endl;
+            cout<<"Waktu: "<<help->waktu<<endl;
+            cout<<endl;
+            help=help->next;
         }
-        while(pBantu!=NULL);
     }
 }
 
@@ -93,7 +98,6 @@ void sortingByNomor(Pembalap* &head)
 void update(Pembalap* firstNode, int nomorKey)
 {
     // update Pembalap from user input
-
 }
 
 
@@ -103,6 +107,10 @@ int main()
     Pembalap* pBaru=NULL;
     Pembalap* pToUpdate=NULL;
     char nama='a';
+
+    cout<<"===============================================" <<endl;
+    cout<<"         Program Double Linked List            " <<endl;
+    cout<<"===============================================" <<endl <<endl;
 
     for (int i=0; i<4; i++)
     {
